@@ -49,8 +49,17 @@ public class Table {
         mPaint.setTextSize(cSize);
         int fattX = screenWidth / size;
         int fattY = screenWidth / size;
-        for (int i = 0; i < size; i++)
-            for (int j = 0; j < size; j++) {
+        for (int i = 1; i < size-1; i++){
+            int x = i * fattX + 2;
+            int y =  2;
+            canvas.drawBitmap(Heap.getIcon(0), x, 2, new Paint());
+            canvas.drawBitmap(Heap.getIcon(1), x, fattY*(size-1), new Paint());
+
+            canvas.drawBitmap(Heap.getIcon(3), 2,x, new Paint());
+            canvas.drawBitmap(Heap.getIcon(2),fattY*(size-1), x,  new Paint());
+        }
+        for (int i = 1; i < size-1; i++)
+            for (int j = 1; j < size-1; j++) {
                 TableCell cell = table[i][j];
 
                 int x = i * fattX + 2;
@@ -58,12 +67,10 @@ public class Table {
                 fill(canvas, screenWidth, x, y, Color.WHITE);
 
                 if (cell.isShow() || cell.isShowPreview()) {
-                    if (main.isUseImages())
-                        canvas.drawBitmap(Heap.getIcon(cell.getCurrentVal() - 1), x, y, new Paint());
-                    else {
-                        drawText(canvas, mPaint, "" + cell.getCurrentVal(), i * fattX, (j + 1) * fattY, cSize);
-                        //       canvas.drawText("" + cell.getCurrentVal(), i * fattX + 2, (j + 1) * fattY - 4, mPaint);
-                    }
+
+                    drawText(canvas, mPaint, "" + cell.getCurrentVal(), i * fattX, (j + 1) * fattY, cSize);
+                    //       canvas.drawText("" + cell.getCurrentVal(), i * fattX + 2, (j + 1) * fattY - 4, mPaint);
+
 
                     if (cell.isCandidate()) {
                         Paint paint = new Paint();
@@ -143,7 +150,7 @@ public class Table {
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++) table[i][j].setShowPreview(true);
 
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 try {
@@ -157,5 +164,62 @@ public class Table {
         }.start();
 
 
+    }
+
+    public void rotateCol(int y, int dd) {
+        int vals[] = new int[size];
+
+        if (dd == 1) {
+            for (int i = 1; i < size - 2; i++)
+                vals[i + 1] = table[y][i].getCurrentVal();
+            vals[1] = table[y][size - 2].getCurrentVal();
+        } else {
+            for (int i = 2; i < size-1; i++)
+                vals[i - 1] = table[y][i].getCurrentVal();
+            vals[size-2] = table[y][1].getCurrentVal();
+        }
+        for (int i = 1; i < size-1; i++)
+            table[y][i].setCurrentVal(vals[i]);
+    }
+
+    public void rotateRow(int y, int dd) { int vals[] = new int[size];
+        if (dd == 1) {
+            for (int i = 1; i < size - 2; i++)
+                vals[i + 1] = table[i][y].getCurrentVal();
+            vals[1] = table[size-2][y].getCurrentVal();
+        } else {
+            for (int i = 2; i < size-1; i++)
+                vals[i - 1] = table[i][y].getCurrentVal();
+            vals[size-2] = table[1][y].getCurrentVal();}
+        for (int i = 1; i < size-1; i++)
+            table[i][y].setCurrentVal(vals[i]);
+    }
+    public void rotateCol_(int y, int dd) {
+        int vals[] = new int[size];
+
+        if (dd == 1) {
+            for (int i = 0; i < size - 1; i++)
+                vals[i + 1] = table[y][i].getCurrentVal();
+            vals[0] = table[y][size - 1].getCurrentVal();
+        } else {
+            for (int i = 1; i < size; i++)
+                vals[i - 1] = table[y][i].getCurrentVal();
+            vals[size-1] = table[y][0].getCurrentVal();
+        }
+        for (int i = 0; i < size; i++)
+            table[y][i].setCurrentVal(vals[i]);
+    }
+
+    public void rotateRow_(int y, int dd) { int vals[] = new int[size];
+        if (dd == 1) {
+            for (int i = 0; i < size - 1; i++)
+                vals[i + 1] = table[i][y].getCurrentVal();
+            vals[0] = table[size-1][y].getCurrentVal();
+        } else {
+            for (int i = 1; i < size; i++)
+                vals[i - 1] = table[i][y].getCurrentVal();
+            vals[size-1] = table[0][y].getCurrentVal();}
+        for (int i = 0; i < size; i++)
+            table[i][y].setCurrentVal(vals[i]);
     }
 }
