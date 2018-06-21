@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    tools:layout_editor_absoluteY="73dp">
+
+
+    <TextView
+        android:id="@+id/tentativi"
+        android:layout_width="74dp"
+        android:layout_height="16dp"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/tentativi0"
+        app:layout_constraintTop_toBottomOf="@+id/board" />
+
+    <TextView
+        android:id="@+id/coppie"
+        android:layout_width="74dp"
+        android:layout_height="16dp"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/coppieval"
+        app:layout_constraintTop_toBottomOf="@+id/board" />
+
+    <Button
+        android:id="@+id/cleanAll"
+        android:layout_width="94dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:text="Nuovo"
+        app:layout_constraintStart_toEndOf="@+id/solve"
+        app:layout_constraintTop_toBottomOf="@+id/tentativi" />
+
+    <Button
+        android:id="@+id/solve"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="Risolvi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tentativi0" />
+
+    <FrameLayout
+        android:id="@+id/board"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tentativi0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tentativi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/board" />
+
+    <TextView
+        android:id="@+id/coppieval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/coppie"
+        app:layout_constraintStart_toEndOf="@+id/tentativi"
+        app:layout_constraintTop_toBottomOf="@+id/board" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        ads:adSize="BANNER"
+        ads:adUnitId=""
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toBottomOf="@+id/cleanAll"></com.google.android.gms.ads.AdView>
+
+</android.support.constraint.ConstraintLayout>
+
