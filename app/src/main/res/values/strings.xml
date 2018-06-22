@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Memory Mahjong</string>
+    <string name="app_name">Sliding Words</string>
     <string name="tentativi">Tentativi:</string>
 
 
@@ -14,9 +14,9 @@
     <string name="pref_update_setting">Settings</string>
     <string name="usa_numeri">Usa numeri</string>
     <string name="usa_immagini">Usa Immagini</string>
-    <string name="size4">gioco 4x4</string>
-    <string name="size6">Gioco 6x6</string>
-    <string name="size8">Gioco 8x8</string>
+    <string name="size4">gioco 2x2</string>
+    <string name="size6">Gioco 4x4</string>
+    <string name="size8">Gioco 6x6</string>
     <string name="coppie">Coppie</string>
     <string name="preview">Mostra soluzione</string>
 </resources>
