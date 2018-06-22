@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main1);
 
-        //    setBanner();
+          setBanner();
 
         textTentativi = (TextView) findViewById(R.id.tentativi);
 
@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
     }
 
     private void setBanner() {
-        MobileAds.initialize(this, "");
+        MobileAds.initialize(this, "ca-app-pub-6114671792914206/7490421529");
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
