@@ -2,6 +2,7 @@ package crossline.boymask.crossline;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -54,7 +55,7 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
         int size = tab.getSize();
 
         int step = screenWidth / size;
-        for (int i = 0; i <= size; i++) {
+        for (int i = 0; i <= size+2; i++) {
             canvas.drawLine(i * step, 0, i * step, screenWidth, mPaint);
             canvas.drawLine(0, i * step, screenWidth, i * step, mPaint);
         }
@@ -67,7 +68,7 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
         Table tab = mainActivity.getTable();
         int size = tab.getSize();
         int step = screenWidth / size;
-        for (int i = 0; i <= size; i++) {
+        for (int i = 0; i <= size+2; i++) {
             canvas.drawLine(i * step, 0, i * step, screenWidth, mPaint);
             canvas.drawLine(0, i * step, screenWidth, i * step, mPaint);
         }
@@ -111,12 +112,25 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
 
         Pair cella = getCella(x, y);
         if (cella == null) return false;
-        TableCell cc = tab.getCell(cella.getX(), cella.getY());
+        final TableCell cc = tab.getCell(cella.getX(), cella.getY());
 
         if (cella.getX() == 0) tab.rotateRow(cella.getY(), -1);
         if (cella.getX() == tab.getSize() - 1) tab.rotateRow(cella.getY(), 1);
         if (cella.getY() == 0) tab.rotateCol(cella.getX(), -1);
         if (cella.getY() == tab.getSize() - 1) tab.rotateCol(cella.getX(), 1);
+
+        cc.setBackgroundColor(Color.GREEN);
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                cc.setBackgroundColor(Color.WHITE);
+            }
+        }.start();
 
         tentativi++;
         mainActivity.setTentativi(tentativi);

@@ -122,16 +122,19 @@ public class MainActivity extends Activity {
             case R.id.size4:
                 gameSize = 4;
                 table = new Table(this, gameSize);
+                setTentativi(0);
                 loadIcons();
                 break;
             case R.id.size6:
                 gameSize = 6;
                 table = new Table(this, gameSize);
+                setTentativi(0);
                 loadIcons();
                 break;
             case R.id.size8:
                 gameSize = 8;
                 table = new Table(this, gameSize);
+                setTentativi(0);
                 loadIcons();
                 break;
 /*            case R.id.preview:
@@ -197,7 +200,7 @@ public class MainActivity extends Activity {
         int v2 = getNavigationBarHeight();
 
         screenWidth = size.x;
-     //   screenWidth= (int) (0.9*screenWidth);
+        //   screenWidth= (int) (0.9*screenWidth);
         screenHeight = size.y - v1 - v2;
         float f = (float) screenHeight / screenWidth;
 

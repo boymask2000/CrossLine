@@ -22,7 +22,7 @@ public class Table {
         table = new TableCell[size][size];
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++)
-                table[i][j] = new TableCell(i, j);
+                table[i][j] = new TableCell(i, j, this, main.getScreenWidth());
 
         init();
     }
@@ -56,15 +56,21 @@ public class Table {
         for (int i = 1; i < size - 1; i++) {
             int x = i * fattX + 2;
             int y = 2;
-            canvas.drawBitmap(Heap.getIcon(0), x, 2, new Paint());
-            canvas.drawBitmap(Heap.getIcon(1), x, fattY * (size - 1), new Paint());
+            table[0][i].setBitmap(Heap.getIcon(3));
+            table[size-1][i].setBitmap(Heap.getIcon(2));
+            table[i][0].setBitmap(Heap.getIcon(0));
+            table[i][size-1].setBitmap(Heap.getIcon(1));
 
-            canvas.drawBitmap(Heap.getIcon(3), 2, x, new Paint());
-            canvas.drawBitmap(Heap.getIcon(2), fattY * (size - 1), x, new Paint());
+            table[0][i].draw(canvas,new Paint());
+            table[size-1][i].draw(canvas,new Paint());
+            table[i][0].draw(canvas,new Paint());
+            table[i][size-1].draw(canvas,new Paint());
+
+
         }
         for (int i = 1; i < size - 1; i++)
             for (int j = 1; j < size - 1; j++) {
-                TableCell cell = table[i][j];
+                 TableCell cell = table[i][j];
 
                 int x = i * fattX + 2;
                 int y = j * fattY + 2;
@@ -92,6 +98,7 @@ public class Table {
                     fill(canvas, screenWidth, x, y, backColor);
 
             }
+            surfacePanel.drawLines(canvas);
     }
 
     private void drawText(Canvas canvas, Paint paint, String text, int x, int y, int csize) {

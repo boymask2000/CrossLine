@@ -1,18 +1,31 @@
 package crossline.boymask.crossline;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+
 import java.util.Objects;
 
 public class TableCell {
+    private final Table table;
+    private final int screenWidth;
     private boolean show = true;
     private boolean showPreview = false;
     private int x;
     private int y;
     private int currentVal;
 
+    private Bitmap bitmap=null;
+
 
     private boolean candidate;
 
-    public TableCell(int x, int y) {
+    private int backgroundColor=Color.WHITE;
+
+    public TableCell(int x, int y, Table table, int screenWidth) {
+        this.table=table;
+        this.screenWidth=screenWidth;
         this.x = x;
         this.y = y;
     }
@@ -24,6 +37,10 @@ public class TableCell {
         TableCell tableCell = (TableCell) o;
         return getX() == tableCell.getX() &&
                 getY() == tableCell.getY();
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
     @Override
@@ -84,4 +101,25 @@ public class TableCell {
         this.showPreview = showPreview;
     }
 
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    public void draw(Canvas canvas,  Paint pp){
+        int fatt = screenWidth / table.getSize();
+        int xx = x * fatt + 2;
+        int yy = y * fatt + 2;
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(backgroundColor);
+        canvas.drawRect(xx, yy, xx+fatt , yy+fatt , paint);
+        
+        canvas.drawBitmap(bitmap, xx, yy, pp);
+
+    }
 }
