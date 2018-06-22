@@ -62,8 +62,9 @@
         android:layout_marginTop="8dp"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-6114671792914206/7490421529"
+        ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintTop_toBottomOf="@+id/cleanAll"></com.google.android.gms.ads.AdView>
+        ads:layout_constraintTop_toBottomOf="@+id/cleanAll" />
 
 </android.support.constraint.ConstraintLayout>
 

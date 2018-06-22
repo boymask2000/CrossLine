@@ -36,7 +36,6 @@ public class MainActivity extends Activity {
     private int screenHeight;
 
 
-    private boolean useImages;
     private int gameSize = 8;
     private AdView mAdView;
 
@@ -45,9 +44,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main1);
-
-          setBanner();
-
+        setBanner();
         textTentativi = (TextView) findViewById(R.id.tentativi);
 
         FrameLayout lay = findViewById(R.id.board);
@@ -200,14 +197,11 @@ public class MainActivity extends Activity {
         int v2 = getNavigationBarHeight();
 
         screenWidth = size.x;
+     //   screenWidth= (int) (0.9*screenWidth);
         screenHeight = size.y - v1 - v2;
         float f = (float) screenHeight / screenWidth;
 
-        //   if (screenHeight >= screenWidth) Heap.setFact(f);
-    }
 
-    public boolean isUseImages() {
-        return useImages;
     }
 
     public int getStatusBarHeight() {
