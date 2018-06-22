@@ -31,7 +31,6 @@ public class MainActivity extends Activity {
     private Table table = null;
 
     private TextView textTentativi;
-    private TextView textCoppie;
 
     private int screenWidth;
     private int screenHeight;
@@ -47,56 +46,52 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main1);
 
-        setBanner();
+        //    setBanner();
 
         textTentativi = (TextView) findViewById(R.id.tentativi);
-        textCoppie = (TextView) findViewById(R.id.coppie);
+
         FrameLayout lay = findViewById(R.id.board);
 
         getDims();
         surface = new SurfacePanel(getBaseContext(), null, this);
         lay.addView(surface);
         table = new Table(this, 8);
-
+        loadIcons();
         handleButtons();
 
-        loadIcons();
+    }
+
+
+    public void setTentativi(int n) {
+        textTentativi.setText("" + n);
+    }
+
+    private void setBanner() {
+        MobileAds.initialize(this, "");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
+
+
+    private void handleButtons() {
+
+
+        Button cleanAll = findViewById(R.id.cleanAll);
+        cleanAll.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                table.init();
+                setTentativi(0);
+            }
+        });
     }
 
     private void loadIcons() {
 
-        loadIcon(0, R.mipmap.img_1);
-        loadIcon(1, R.mipmap.img_2);
-        loadIcon(2, R.mipmap.img_3);
-        loadIcon(3, R.mipmap.img_4);
-        loadIcon(4, R.mipmap.img_5);
-        loadIcon(5, R.mipmap.img_6);
-        loadIcon(6, R.mipmap.img_7);
-        loadIcon(7, R.mipmap.img_8);
-        loadIcon(8, R.mipmap.img_9);
-        loadIcon(9, R.mipmap.img_10);
-        loadIcon(10, R.mipmap.img_11);
-        loadIcon(11, R.mipmap.img_12);
-        loadIcon(12, R.mipmap.img_13);
-        loadIcon(13, R.mipmap.img_14);
-        loadIcon(14, R.mipmap.img_15);
-        loadIcon(15, R.mipmap.img_16);
-        loadIcon(16, R.mipmap.img_17);
-        loadIcon(17, R.mipmap.img_18);
-        loadIcon(18, R.mipmap.img_19);
-        loadIcon(19, R.mipmap.img_20);
-        loadIcon(20, R.mipmap.img_21);
-        loadIcon(21, R.mipmap.img_22);
-        loadIcon(22, R.mipmap.img_23);
-        loadIcon(23, R.mipmap.img_24);
-        loadIcon(24, R.mipmap.img_25);
-        loadIcon(25, R.mipmap.img_26);
-        loadIcon(26, R.mipmap.img_27);
-        loadIcon(27, R.mipmap.img_28);
-        loadIcon(28, R.mipmap.img_29);
-        loadIcon(29, R.mipmap.img_30);
-        loadIcon(30, R.mipmap.img_21);
-        loadIcon(31, R.mipmap.img_32);
+        loadIcon(0, R.mipmap.up);
+        loadIcon(1, R.mipmap.down);
+        loadIcon(2, R.mipmap.right);
+        loadIcon(3, R.mipmap.left);
     }
 
     private void loadIcon(int i, int id) {
@@ -107,38 +102,6 @@ public class MainActivity extends Activity {
 
         Heap.setIcon(i, bMapScaled);
     }
-
-    public void setTentativi(int n) {
-        textTentativi.setText("" + n);
-    }
-
-    private void setBanner() {
-        MobileAds.initialize(this, "ca-app-pub-6114671792914206/1667379087");
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-    }
-
-
-    private void handleButtons() {
-
-        Button solve = findViewById(R.id.solve);
-        solve.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                table.solve();
-            }
-        });
-
-
-        Button cleanAll = findViewById(R.id.cleanAll);
-        cleanAll.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                table.clean();
-                surface.reset();
-            }
-        });
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -153,12 +116,12 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.usaimmagini:
+/*            case R.id.usaimmagini:
                 useImages = true;
                 return true;
             case R.id.usanumeri:
                 useImages = false;
-                return true;
+                return true;*/
             case R.id.size4:
                 gameSize = 4;
                 table = new Table(this, gameSize);
@@ -174,10 +137,10 @@ public class MainActivity extends Activity {
                 table = new Table(this, gameSize);
                 loadIcons();
                 break;
-            case R.id.preview:
+/*            case R.id.preview:
 
                 table.preview();
-                break;
+                break;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -270,8 +233,8 @@ public class MainActivity extends Activity {
         return screenWidth;
     }
 
-    public void setCoppie(int n) {
 
-        textCoppie.setText("" + n);
+    public void clean() {
+        surface.update();
     }
 }
