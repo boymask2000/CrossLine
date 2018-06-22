@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
     }
 
     private void setBanner() {
-        MobileAds.initialize(this, "ca-app-pub-6114671792914206/7490421529");
+        MobileAds.initialize(this, "ca-app-pub-6114671792914206/3953667046");
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
