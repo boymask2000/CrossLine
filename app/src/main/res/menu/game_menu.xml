@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/MENU_0"
+        android:showAsAction="ifRoom"
+        android:title="Opzioni"
+        tools:ignore="AppCompatResource">
+        <menu>
+
+<!--            <item
+                android:id="@+id/usanumeri"
+                android:showAsAction="ifRoom"
+                android:title="@string/usa_numeri"
+                tools:ignore="AppCompatResource" />
+            <item
+                android:id="@+id/usaimmagini"
+                android:showAsAction="ifRoom"
+                android:title="@string/usa_immagini"
+                tools:ignore="AppCompatResource" />-->
+            <item
+                android:id="@+id/size4"
+                android:showAsAction="ifRoom"
+                android:title="@string/size4"
+                tools:ignore="AppCompatResource" />
+            <item
+                android:id="@+id/size6"
+                android:showAsAction="ifRoom"
+                android:title="@string/size6"
+                tools:ignore="AppCompatResource" />
+            <item
+                android:id="@+id/size8"
+                android:showAsAction="ifRoom"
+                android:title="@string/size8"
+                tools:ignore="AppCompatResource" />
+<!--            <item
+            android:id="@+id/preview"
+            android:showAsAction="ifRoom"
+            android:title="@string/preview"
+            tools:ignore="AppCompatResource" />-->
+        </menu>
+    </item>
+
+</menu>

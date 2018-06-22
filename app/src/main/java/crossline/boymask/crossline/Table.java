@@ -5,13 +5,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import java.util.Random;
+
 
 public class Table {
 
-
+    private int backColor = Color.WHITE;
     private final MainActivity main;
     private int size = 0;
-    private TableCell[][] table = new TableCell[10][10];
+    private TableCell[][] table = null;
 
 
     public Table(MainActivity mainActivity, int size) {
@@ -44,27 +46,29 @@ public class Table {
 
 
     public void draw(SurfacePanel surfacePanel, Canvas canvas, Paint mPaint, int screenWidth) {
-        //  setTextSizeForWidth(mPaint,300, "1");
+        clear(canvas, screenWidth);
+        surfacePanel.drawLines(canvas);
+
         int cSize = screenWidth / (size + 2);
         mPaint.setTextSize(cSize);
         int fattX = screenWidth / size;
         int fattY = screenWidth / size;
-        for (int i = 1; i < size-1; i++){
+        for (int i = 1; i < size - 1; i++) {
             int x = i * fattX + 2;
-            int y =  2;
+            int y = 2;
             canvas.drawBitmap(Heap.getIcon(0), x, 2, new Paint());
-            canvas.drawBitmap(Heap.getIcon(1), x, fattY*(size-1), new Paint());
+            canvas.drawBitmap(Heap.getIcon(1), x, fattY * (size - 1), new Paint());
 
-            canvas.drawBitmap(Heap.getIcon(3), 2,x, new Paint());
-            canvas.drawBitmap(Heap.getIcon(2),fattY*(size-1), x,  new Paint());
+            canvas.drawBitmap(Heap.getIcon(3), 2, x, new Paint());
+            canvas.drawBitmap(Heap.getIcon(2), fattY * (size - 1), x, new Paint());
         }
-        for (int i = 1; i < size-1; i++)
-            for (int j = 1; j < size-1; j++) {
+        for (int i = 1; i < size - 1; i++)
+            for (int j = 1; j < size - 1; j++) {
                 TableCell cell = table[i][j];
 
                 int x = i * fattX + 2;
                 int y = j * fattY + 2;
-                fill(canvas, screenWidth, x, y, Color.WHITE);
+                fill(canvas, screenWidth, x, y, backColor);
 
                 if (cell.isShow() || cell.isShowPreview()) {
 
@@ -85,7 +89,7 @@ public class Table {
 
                     }
                 } else
-                    fill(canvas, screenWidth, x, y, Color.WHITE);
+                    fill(canvas, screenWidth, x, y, backColor);
 
             }
     }
@@ -109,14 +113,31 @@ public class Table {
         canvas.drawRect(x, y, x + ss, y + ss, paint);
     }
 
+    private void clear(Canvas canvas, int screenWidth) {
+        int ss = screenWidth;
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(backColor);
+        canvas.drawRect(0, 0, ss, ss, paint);
+    }
+
 
     public void init() {
-        Randomizer rand = new Randomizer(size * size);
-        for (int i = 0; i < size; i++)
-            for (int j = 0; j < size; j++) {
-                table[i][j].setCurrentVal(rand.getNextRandom());
+        main.clean();
+    //    main.getSurface().setTentativi(0);
+        Random rand = new Random();
+        int val = 1;
+        for (int i = 1; i < size - 1; i++)
+            for (int j = 1; j < size - 1; j++) {
+                table[i][j].setCurrentVal(val++);
             }
 
+        for (int i = 0; i < 50; i++) {
+            int n = rand.nextInt(size);
+            rotateCol(n, 1);
+            n = rand.nextInt(size);
+            rotateRow(n, 1);
+        }
     }
 
     public int getSize() {
@@ -128,10 +149,12 @@ public class Table {
     }
 
     public boolean isRisolto() {
-        for (int i = 0; i < size; i++)
-            for (int j = 0; j < size; j++)
-                if (!table[i][j].isShow()) return false;
-
+        int val = 1;
+        for (int i = 1; i < size - 1; i++)
+            for (int j = 1; j < size - 1; j++) {
+                if (table[i][j].getCurrentVal() != val) return false;
+                val++;
+            }
         return true;
     }
 
@@ -174,52 +197,27 @@ public class Table {
                 vals[i + 1] = table[y][i].getCurrentVal();
             vals[1] = table[y][size - 2].getCurrentVal();
         } else {
-            for (int i = 2; i < size-1; i++)
+            for (int i = 2; i < size - 1; i++)
                 vals[i - 1] = table[y][i].getCurrentVal();
-            vals[size-2] = table[y][1].getCurrentVal();
+            vals[size - 2] = table[y][1].getCurrentVal();
         }
-        for (int i = 1; i < size-1; i++)
+        for (int i = 1; i < size - 1; i++)
             table[y][i].setCurrentVal(vals[i]);
     }
 
-    public void rotateRow(int y, int dd) { int vals[] = new int[size];
+    public void rotateRow(int y, int dd) {
+        int vals[] = new int[size];
         if (dd == 1) {
             for (int i = 1; i < size - 2; i++)
                 vals[i + 1] = table[i][y].getCurrentVal();
-            vals[1] = table[size-2][y].getCurrentVal();
+            vals[1] = table[size - 2][y].getCurrentVal();
         } else {
-            for (int i = 2; i < size-1; i++)
+            for (int i = 2; i < size - 1; i++)
                 vals[i - 1] = table[i][y].getCurrentVal();
-            vals[size-2] = table[1][y].getCurrentVal();}
-        for (int i = 1; i < size-1; i++)
-            table[i][y].setCurrentVal(vals[i]);
-    }
-    public void rotateCol_(int y, int dd) {
-        int vals[] = new int[size];
-
-        if (dd == 1) {
-            for (int i = 0; i < size - 1; i++)
-                vals[i + 1] = table[y][i].getCurrentVal();
-            vals[0] = table[y][size - 1].getCurrentVal();
-        } else {
-            for (int i = 1; i < size; i++)
-                vals[i - 1] = table[y][i].getCurrentVal();
-            vals[size-1] = table[y][0].getCurrentVal();
+            vals[size - 2] = table[1][y].getCurrentVal();
         }
-        for (int i = 0; i < size; i++)
-            table[y][i].setCurrentVal(vals[i]);
-    }
-
-    public void rotateRow_(int y, int dd) { int vals[] = new int[size];
-        if (dd == 1) {
-            for (int i = 0; i < size - 1; i++)
-                vals[i + 1] = table[i][y].getCurrentVal();
-            vals[0] = table[size-1][y].getCurrentVal();
-        } else {
-            for (int i = 1; i < size; i++)
-                vals[i - 1] = table[i][y].getCurrentVal();
-            vals[size-1] = table[0][y].getCurrentVal();}
-        for (int i = 0; i < size; i++)
+        for (int i = 1; i < size - 1; i++)
             table[i][y].setCurrentVal(vals[i]);
     }
+
 }

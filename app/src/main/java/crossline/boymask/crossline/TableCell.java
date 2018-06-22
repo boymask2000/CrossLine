@@ -3,7 +3,7 @@ package crossline.boymask.crossline;
 import java.util.Objects;
 
 public class TableCell {
-    private boolean show = false;
+    private boolean show = true;
     private boolean showPreview = false;
     private int x;
     private int y;

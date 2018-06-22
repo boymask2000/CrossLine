@@ -20,6 +20,8 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
     //   private int screenHeight;
     private int i = 0;
     private Paint mPaint = new Paint();
+
+
     private int tentativi;
     private Pair firstCell = null;
     private boolean firstMove = true;
@@ -61,6 +63,20 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
 
     }
 
+    public void drawLines(Canvas canvas) {
+        Table tab = mainActivity.getTable();
+        int size = tab.getSize();
+        int step = screenWidth / size;
+        for (int i = 0; i <= size; i++) {
+            canvas.drawLine(i * step, 0, i * step, screenWidth, mPaint);
+            canvas.drawLine(0, i * step, screenWidth, i * step, mPaint);
+        }
+    }
+
+    public void setTentativi(int tentativi) {
+        this.tentativi = tentativi;
+    }
+
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         mythread.setRunning(false);
@@ -96,48 +112,17 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
         Pair cella = getCella(x, y);
         if (cella == null) return false;
         TableCell cc = tab.getCell(cella.getX(), cella.getY());
-        if (cc.isShow()) return false;
 
-        //   Heap.selectedCell = mainActivity.getTable().getCellByCoord(cella.getX(), cella.getY());
+        if (cella.getX() == 0) tab.rotateRow(cella.getY(), -1);
+        if (cella.getX() == tab.getSize() - 1) tab.rotateRow(cella.getY(), 1);
+        if (cella.getY() == 0) tab.rotateCol(cella.getX(), -1);
+        if (cella.getY() == tab.getSize() - 1) tab.rotateCol(cella.getX(), 1);
 
-        if (firstMove) {
+        tentativi++;
+        mainActivity.setTentativi(tentativi);
 
-            firstCell = cella;
-
-            TableCell c1 = tab.getCell(firstCell.getX(), firstCell.getY());
-            c1.setShow(true);
-            c1.setCandidate(true);
-
-        } else {
-            tentativi++;
-            mainActivity.setTentativi(tentativi);
-
-            TableCell c1 = tab.getCell(firstCell.getX(), firstCell.getY());
-            TableCell c2 = tab.getCell(cella.getX(), cella.getY());
-            c2.setCandidate(true);
-            c2.setShow(true);
-
-
-            if (c1.getCurrentVal() != c2.getCurrentVal()) {
-                try {
-                    Thread.sleep(1000);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                c1.setShow(false);
-                c2.setShow(false);
-            } else coppie++;
-            mainActivity.setCoppie(coppie);
-            c1.setCandidate(false);
-            c2.setCandidate(false);
-        }
-        if (mainActivity.getTable().isRisolto()) {
+        if (mainActivity.getTable().isRisolto())
             PopupMessage.info(mainActivity, "Completato !");
-        }
-
-
-        firstMove = !firstMove;
 
         return true;
     }
@@ -163,6 +148,7 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
         mythread.setRunning(true);
 
         mythread.start();
+
     }
 
     public void update() {
@@ -173,4 +159,6 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
         tentativi = 0;
         coppie = 0;
     }
+
+
 }
