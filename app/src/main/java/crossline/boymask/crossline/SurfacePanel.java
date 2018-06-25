@@ -18,8 +18,6 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
     private final MainActivity mainActivity;
     private MyThread mythread;
     private int screenWidth;
-    //   private int screenHeight;
-    private int i = 0;
     private Paint mPaint = new Paint();
 
 
