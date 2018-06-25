@@ -24,8 +24,6 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
 
 
     private int tentativi;
-    private Pair firstCell = null;
-    private boolean firstMove = true;
     private int coppie;
 
 
@@ -55,7 +53,7 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
         int size = tab.getSize();
 
         int step = screenWidth / size;
-        for (int i = 0; i <= size+2; i++) {
+        for (int i = 0; i <= size + 2; i++) {
             canvas.drawLine(i * step, 0, i * step, screenWidth, mPaint);
             canvas.drawLine(0, i * step, screenWidth, i * step, mPaint);
         }
@@ -68,7 +66,7 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
         Table tab = mainActivity.getTable();
         int size = tab.getSize();
         int step = screenWidth / size;
-        for (int i = 0; i <= size+2; i++) {
+        for (int i = 0; i <= size + 2; i++) {
             canvas.drawLine(i * step, 0, i * step, screenWidth, mPaint);
             canvas.drawLine(0, i * step, screenWidth, i * step, mPaint);
         }
@@ -104,9 +102,10 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Table tab = mainActivity.getTable();
+
         if (event.getAction() != MotionEvent.ACTION_DOWN) return false;
 
+        Table tab = mainActivity.getTable();
         float x = event.getX();
         float y = event.getY();
 
@@ -114,13 +113,27 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
         if (cella == null) return false;
         final TableCell cc = tab.getCell(cella.getX(), cella.getY());
 
-        if (cella.getX() == 0) tab.rotateRow(cella.getY(), -1);
-        if (cella.getX() == tab.getSize() - 1) tab.rotateRow(cella.getY(), 1);
-        if (cella.getY() == 0) tab.rotateCol(cella.getX(), -1);
-        if (cella.getY() == tab.getSize() - 1) tab.rotateCol(cella.getX(), 1);
+        boolean ok = false;
+        if (cella.getX() == 0) {
+            ok = true;
+            tab.rotateRow(cella.getY(), -1);
+        }
+        if (cella.getX() == tab.getSize() - 1) {
+            ok = true;
+            tab.rotateRow(cella.getY(), 1);
+        }
+        if (cella.getY() == 0) {
+            ok = true;
+            tab.rotateCol(cella.getX(), -1);
+        }
+        if (cella.getY() == tab.getSize() - 1) {
+            ok = true;
+            tab.rotateCol(cella.getX(), 1);
+        }
+        if(!ok)return false;
 
         cc.setBackgroundColor(Color.GREEN);
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 try {
