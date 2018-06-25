@@ -24,7 +24,6 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
 
 
     private int tentativi;
-    private int coppie;
 
 
     public SurfacePanel(Context ctx, AttributeSet attrSet, MainActivity mainActivity) {
@@ -184,7 +183,6 @@ public class SurfacePanel extends SurfaceView implements SurfaceHolder.Callback 
 
     public void reset() {
         tentativi = 0;
-        coppie = 0;
     }
 
 
